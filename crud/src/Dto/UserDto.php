@@ -55,7 +55,7 @@ class UserDto
     private static function fillWithData(array $data, UserDto $dto): void
     {
         foreach (get_class_vars(static::class) as $field => $value) {
-            if (isset($data[$field]) && !empty($data[$field])) {
+            if (array_key_exists($field, $data)) {
                 $dto->{$field} = $data[$field];
             }
         }
