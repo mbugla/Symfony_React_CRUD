@@ -1,31 +1,15 @@
 <?php
 
-
 namespace Test\App\Controller;
 
-use App\Controller\UsersController;
-use App\Repository\UserRepositoryInterface;
-use PHPUnit\Framework\TestCase;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Test\Support\FailingValidator;
 use Test\Support\PositiveValidator;
-use Test\Support\UsersInMemoryRepository;
 
-class CreateUserTest extends TestCase
+class CreateUserTest extends ApiControllerTest
 {
-    /** @var UsersController */
-    private $controller;
-
-    /** @var UserRepositoryInterface */
-    private $userRepository;
-
-    public function setUp()
-    {
-        $this->userRepository = new UsersInMemoryRepository();
-    }
-
     /**
      * @test
      */
@@ -66,12 +50,4 @@ class CreateUserTest extends TestCase
         $this->assertEquals(['value' => '""', 'property' => "name"], $responseContent[0]);
     }
 
-    /**
-     * @param ValidatorInterface $validator
-     * @return UsersController
-     */
-    protected function createUserController(ValidatorInterface $validator): UsersController
-    {
-        return new UsersController($validator, $this->userRepository);
-    }
 }

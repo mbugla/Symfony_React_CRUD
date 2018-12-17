@@ -3,13 +3,15 @@
 namespace Test\App\Controller;
 
 
-use PHPUnit\Framework\TestCase;
+use Test\Support\PositiveValidator;
 
-class GetUserTest extends GetUsersTest
+class GetUserTest extends ApiControllerTest
 {
     public function setUp()
     {
         parent::setUp();
+        $this->prepareData();
+        $this->controller = $this->createUserController(new PositiveValidator());
     }
 
     /**
