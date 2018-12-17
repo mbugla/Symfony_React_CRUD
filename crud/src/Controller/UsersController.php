@@ -83,8 +83,24 @@ class UsersController
         }
 
         $requestBody = json_decode($request->getContent(), true);
-
         $userDto = UserDto::createFromUser($user);
+
+
+        $userDto->updateFromArray($requestBody);
+
+        $errors = $this->validator->validate($userDto);
+
+        if (count($errors) > 0) {
+
+
+            return $this->errorResponse($errors);
+        }
+
+        $user->updateFromDto($userDto);
+
+        $this->userRepository->store($user);
+
+        return new JsonResponse($user, Response::HTTP_OK);
     }
 
     public function deleteUserAction($id)
@@ -101,7 +117,11 @@ class UsersController
 
         /** @var ConstraintViolation $error */
         foreach ($errors as $error) {
-            $errList[] = ['value' => $error->getInvalidValue(), 'property' => $error->getPropertyPath()];
+            $errList[] = [
+                'value' => $error->getInvalidValue(),
+                'property' => $error->getPropertyPath(),
+                'message' => $error->getMessage()
+            ];
         }
 
         return new JsonResponse($errList, Response::HTTP_BAD_REQUEST);

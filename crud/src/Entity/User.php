@@ -15,27 +15,27 @@ class User implements \JsonSerializable
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $surname;
+    protected $surname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $telephoneNumber;
+    protected $telephoneNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $address;
+    protected $address;
 
     public function getId(): ?int
     {
@@ -77,12 +77,26 @@ class User implements \JsonSerializable
     public static function createFromDto(UserDto $userDto) : User
     {
         $user = new static();
+        self::fillFromDto($userDto, $user);
+
+        return $user;
+    }
+
+    public function updateFromDto(UserDto $userDto): void
+    {
+        self::fillFromDto($userDto, $this);
+    }
+
+    /**
+     * @param UserDto $userDto
+     * @param $user
+     */
+    protected static function fillFromDto(UserDto $userDto, $user): void
+    {
         $user->name = $userDto->getName();
         $user->surname = $userDto->getSurname();
         $user->telephoneNumber = $userDto->getTelephoneNumber();
         $user->address = $userDto->getAddress();
-
-        return $user;
     }
 
     /**

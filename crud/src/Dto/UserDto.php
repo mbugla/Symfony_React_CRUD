@@ -43,7 +43,7 @@ class UserDto
     /**
      * @param array $data
      */
-    public function updateFromArray(array $data):void
+    public function updateFromArray(array $data): void
     {
         self::fillWithData($data, $this);
     }
@@ -52,10 +52,10 @@ class UserDto
      * @param array $data
      * @param $dto
      */
-    private static function fillWithData(array $data, $dto): void
+    private static function fillWithData(array $data, UserDto $dto): void
     {
         foreach (get_class_vars(static::class) as $field => $value) {
-            if (isset($data[$field])) {
+            if (isset($data[$field]) && !empty($data[$field])) {
                 $dto->{$field} = $data[$field];
             }
         }

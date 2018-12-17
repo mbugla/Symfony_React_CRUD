@@ -47,7 +47,7 @@ class CreateUserTest extends ApiControllerTest
 
         $this->assertInstanceOf(JsonResponse::class, $result);
 
-        $this->assertEquals(['value' => '""', 'property' => "name"], $responseContent[0]);
+        $this->assertEquals(['value' => '""', 'property' => "name", 'message'=> "fail"], $responseContent[0]);
     }
 
 }

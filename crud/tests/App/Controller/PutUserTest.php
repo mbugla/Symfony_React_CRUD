@@ -25,6 +25,7 @@ class PutUserTest extends ApiControllerTest
         $user = new UserAccessor(1, 'Ned', 'Stark', '000', 'Winterfell');
 
         $this->userRepository->store($user);
+
         $request = $this->prophesize(Request::class);
 
         $request->getContent()->willReturn('{"name": "Neddart", "address": "Grave"}');
@@ -38,12 +39,6 @@ class PutUserTest extends ApiControllerTest
 
 class UserAccessor extends User
 {
-    protected $id;
-    protected $name;
-    protected $surname;
-    protected $telephoneNumber;
-    protected $address;
-
     public function __construct($id, $name, $surname, $telephoneNumber, $address)
     {
         $this->id = $id;
