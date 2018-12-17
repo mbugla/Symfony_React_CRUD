@@ -50,7 +50,7 @@ class UsersController
         $user = $this->userRepository->find($id);
 
         if (!$user) {
-            return new JsonResponse(null, 404);
+            return new JsonResponse(null, Response::HTTP_NOT_FOUND);
         }
 
         return new JsonResponse($user);
@@ -79,7 +79,7 @@ class UsersController
         $user = $this->userRepository->find($id);
 
         if (!$user) {
-            return new JsonResponse(null, 404);
+            return new JsonResponse(null, Response::HTTP_NOT_FOUND);
         }
 
         $requestBody = json_decode($request->getContent(), true);
@@ -91,7 +91,6 @@ class UsersController
         $errors = $this->validator->validate($userDto);
 
         if (count($errors) > 0) {
-
 
             return $this->errorResponse($errors);
         }
@@ -105,6 +104,15 @@ class UsersController
 
     public function deleteUserAction($id)
     {
+        $user = $this->userRepository->find($id);
+
+        if (!$user) {
+            return new JsonResponse(null, Response::HTTP_NOT_FOUND);
+        }
+
+        $this->userRepository->delete($user);
+
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
     /**
