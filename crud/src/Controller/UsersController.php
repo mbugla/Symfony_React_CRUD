@@ -15,13 +15,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UsersController
 {
-    /**
-     * @var ValidatorInterface
-     */
+    /** @var ValidatorInterface */
     private $validator;
-    /**
-     * @var UserRepository
-     */
+
+    /** @var UserRepository */
     private $userRepository;
 
     /**
@@ -48,9 +45,16 @@ class UsersController
     }
 
 
-    public function getUserAction(User $user)
+    public function getUserAction($id)
     {
-    } // "get_user"             [GET] /users/{slug}
+        $user = $this->userRepository->find($id);
+
+        if (!$user) {
+            return new JsonResponse(null, 404);
+        }
+
+        return new JsonResponse($user);
+    }
 
     public function postUsersAction(Request $request): Response
     {
@@ -68,14 +72,22 @@ class UsersController
         $this->userRepository->store($user);
 
         return new JsonResponse($user, Response::HTTP_CREATED);
+    }
 
-    } // "post_users"           [POST] /users
-
-    public function putUserAction(User $user)
+    public function putUserAction(Request $request, $id)
     {
-    } // "put_user"             [PUT] /users/{slug}
+        $user = $this->userRepository->find($id);
 
-    public function deleteUserAction(User $user)
+        if (!$user) {
+            return new JsonResponse(null, 404);
+        }
+
+        $requestBody = json_decode($request->getContent(), true);
+
+        $userDto = UserDto::createFromUser($user);
+    }
+
+    public function deleteUserAction($id)
     {
     }
 
