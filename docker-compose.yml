@@ -33,13 +33,14 @@ services:
     - db
 
   db:
-    # use a default image
     image: mysql:5.7
-
     # again, port mapping
     # e.g. to use Sequel Pro on our mac
     ports:
     - 13306:3306
+
+    volumes:
+    - ./.docker/data:/docker-entrypoint-initdb.d
 
     # the mysql image uses these to create database and users
     environment:

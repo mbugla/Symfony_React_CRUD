@@ -13,6 +13,11 @@
         </property>
         <property name="telephoneNumber">
             <constraint name="NotBlank" />
+            <constraint name="Regex">
+                <option name="pattern">/^\+\d{11}$/</option>
+                <option name="match">true</option>
+                <option name="message">Your phone number must be in format with country code and 9 digits. Example +48123123123</option>
+            </constraint>
         </property>
         <property name="address">
             <constraint name="NotBlank" />

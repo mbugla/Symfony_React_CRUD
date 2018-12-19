@@ -1,29 +1,35 @@
-import React, { Fragment } from 'react';
-import {
-  CssBaseline,
-  withStyles,
-} from '@material-ui/core';
+import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import AppHeader from './components/AppHeader';
-import Home from './pages/Home';
+import Create from './components/create.component';
+import Edit from './components/edit.component';
+import Index from './components/index.component';
 
-const styles = theme => ({
-  main: {
-    padding: 3 * theme.spacing.unit,
-    [theme.breakpoints.down('xs')]: {
-      padding: 2 * theme.spacing.unit,
-    },
-  },
-});
+class App extends Component {
+  
+  render() {
+    return (
+    
+        <Router>
+            <div className="container">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <Link to={ '/index' } className="navbar-brand">Users CRUD</Link>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav mr-auto">
+                        </ul>
+                    </div>
+                </nav> <br/>
+                <br/>
+                <Switch>
+                    <Route exact path='/index' component={ Index } />
+                    <Route exact path='/create' component={ Create } />
+                    <Route path='/edit/:id' component={ Edit } />
+                </Switch>
+            </div>
+        </Router>
+    );
+  }
+}
 
-const App = ({ classes }) => (
-  <Fragment>
-    <CssBaseline />
-    <AppHeader />
-    <main className={classes.main}>
-      <Home />
-    </main>
-  </Fragment>
-);
-
-export default withStyles(styles)(App);
+export default App;

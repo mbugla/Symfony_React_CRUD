@@ -115,6 +115,15 @@ class UsersController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
+    public function optionsUsersAction()
+    {
+        $response = new Response();
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+
+        return $response;
+    }
+
     /**
      * @param $errors
      * @return JsonResponse
